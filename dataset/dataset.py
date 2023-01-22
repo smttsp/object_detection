@@ -19,11 +19,14 @@ from collections import Counter
 
 
 class ImageDataset(nn.Module):
-    def __init__(self, files_dir, df_detection, df_segmentation=None):
+    def __init__(self, file_dir, df_detection, df_segmentation=None):
         super().__init__()
+        self.file_dir = file_dir
         self.df_detection = df_detection
+        self.df_segmentation = df_segmentation
 
     def __getitem__(self, image_id):
+        image = cv2.imread(os.path.join(self.file_dir, image_id + ".jpg"))
         objects = self.df_detection[self.df_detection["ImageID"] == image_id]
 
         bboxes = []
@@ -37,4 +40,4 @@ class ImageDataset(nn.Module):
 
             bbox = [category, centerx, centery, width, height]
             bboxes.append(bbox)
-        return bboxes
+        return image, bboxes
