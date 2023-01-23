@@ -32,7 +32,8 @@ class ImageDataset(nn.Module):
         bboxes = []
         for idx, object in objects.iterrows():
             xmin, xmax, ymin, ymax = object["XMin"], object["XMax"], object["YMin"], object["YMax"]
-            category = object["IsGroupOf"]
+            category = object["LabelName"]
+            is_group_of = object["IsGroupOf"]
             centerx = (xmin + xmax) / 2
             centery = (ymin + ymax) / 2
             width = xmax - xmin
